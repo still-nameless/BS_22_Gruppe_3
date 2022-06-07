@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="BS_22_Gruppe_3"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="BS_22_Gruppe_3">
+				<Option output="/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/BS_22_Gruppe_3" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 BS_22_Gruppe_3"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="BS_22_Gruppe_3/fast">
+				<Option output="/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/BS_22_Gruppe_3" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 BS_22_Gruppe_3/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/tmp/BS/tmp/tmp.ecTkqrxXU3/helper_functions/helper_functions.c">
+			<Option target="BS_22_Gruppe_3"/>
+		</Unit>
+		<Unit filename="/tmp/BS/tmp/tmp.ecTkqrxXU3/helper_functions/helper_functions.h">
+			<Option target="BS_22_Gruppe_3"/>
+		</Unit>
+		<Unit filename="/tmp/BS/tmp/tmp.ecTkqrxXU3/key_val_store/key_val_store.c">
+			<Option target="BS_22_Gruppe_3"/>
+		</Unit>
+		<Unit filename="/tmp/BS/tmp/tmp.ecTkqrxXU3/key_val_store/key_val_store.h">
+			<Option target="BS_22_Gruppe_3"/>
+		</Unit>
+		<Unit filename="/tmp/BS/tmp/tmp.ecTkqrxXU3/main.c">
+			<Option target="BS_22_Gruppe_3"/>
+		</Unit>
+		<Unit filename="/tmp/BS/tmp/tmp.ecTkqrxXU3/server/server.c">
+			<Option target="BS_22_Gruppe_3"/>
+		</Unit>
+		<Unit filename="/tmp/BS/tmp/tmp.ecTkqrxXU3/server/server.h">
+			<Option target="BS_22_Gruppe_3"/>
+		</Unit>
+		<Unit filename="/tmp/BS/tmp/tmp.ecTkqrxXU3/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
