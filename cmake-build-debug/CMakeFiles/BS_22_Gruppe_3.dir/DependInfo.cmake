@@ -4,15 +4,18 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/tmp/BS/tmp/tmp.ecTkqrxXU3/helper_functions/helper_functions.c" "/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o"
-  "/tmp/BS/tmp/tmp.ecTkqrxXU3/key_val_store/key_val_store.c" "/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o"
-  "/tmp/BS/tmp/tmp.ecTkqrxXU3/main.c" "/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/main.c.o"
-  "/tmp/BS/tmp/tmp.ecTkqrxXU3/server/server.c" "/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o"
+  "/tmp/BS_22_Gruppe_3/helper_functions/helper_functions.c" "/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o"
+  "/tmp/BS_22_Gruppe_3/key_val_store/key_val_store.c" "/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o"
+  "/tmp/BS_22_Gruppe_3/main.c" "/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/main.c.o"
+  "/tmp/BS_22_Gruppe_3/server/server.c" "/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
+  "../server"
+  "../key_val_store"
+  "../helper_functions"
   )
 
 # Targets to which this target links.

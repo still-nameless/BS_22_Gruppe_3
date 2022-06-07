@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /tmp/BS/tmp/tmp.ecTkqrxXU3
+CMAKE_SOURCE_DIR = /tmp/BS_22_Gruppe_3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug
+CMAKE_BINARY_DIR = /tmp/BS_22_Gruppe_3/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/BS_22_Gruppe_3.dir/depend.make
@@ -59,73 +59,73 @@ include CMakeFiles/BS_22_Gruppe_3.dir/flags.make
 
 CMakeFiles/BS_22_Gruppe_3.dir/main.c.o: CMakeFiles/BS_22_Gruppe_3.dir/flags.make
 CMakeFiles/BS_22_Gruppe_3.dir/main.c.o: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/BS_22_Gruppe_3.dir/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/BS_22_Gruppe_3.dir/main.c.o   -c /tmp/BS/tmp/tmp.ecTkqrxXU3/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/BS_22_Gruppe_3.dir/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/BS_22_Gruppe_3.dir/main.c.o   -c /tmp/BS_22_Gruppe_3/main.c
 
 CMakeFiles/BS_22_Gruppe_3.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/BS_22_Gruppe_3.dir/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/BS/tmp/tmp.ecTkqrxXU3/main.c > CMakeFiles/BS_22_Gruppe_3.dir/main.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/BS_22_Gruppe_3/main.c > CMakeFiles/BS_22_Gruppe_3.dir/main.c.i
 
 CMakeFiles/BS_22_Gruppe_3.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/BS_22_Gruppe_3.dir/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/BS/tmp/tmp.ecTkqrxXU3/main.c -o CMakeFiles/BS_22_Gruppe_3.dir/main.c.s
-
-CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o: CMakeFiles/BS_22_Gruppe_3.dir/flags.make
-CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o: ../server/server.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o   -c /tmp/BS/tmp/tmp.ecTkqrxXU3/server/server.c
-
-CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/BS/tmp/tmp.ecTkqrxXU3/server/server.c > CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.i
-
-CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/BS/tmp/tmp.ecTkqrxXU3/server/server.c -o CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.s
-
-CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o: CMakeFiles/BS_22_Gruppe_3.dir/flags.make
-CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o: ../key_val_store/key_val_store.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o   -c /tmp/BS/tmp/tmp.ecTkqrxXU3/key_val_store/key_val_store.c
-
-CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/BS/tmp/tmp.ecTkqrxXU3/key_val_store/key_val_store.c > CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.i
-
-CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/BS/tmp/tmp.ecTkqrxXU3/key_val_store/key_val_store.c -o CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/BS_22_Gruppe_3/main.c -o CMakeFiles/BS_22_Gruppe_3.dir/main.c.s
 
 CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o: CMakeFiles/BS_22_Gruppe_3.dir/flags.make
 CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o: ../helper_functions/helper_functions.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o   -c /tmp/BS/tmp/tmp.ecTkqrxXU3/helper_functions/helper_functions.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o   -c /tmp/BS_22_Gruppe_3/helper_functions/helper_functions.c
 
 CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/BS/tmp/tmp.ecTkqrxXU3/helper_functions/helper_functions.c > CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/BS_22_Gruppe_3/helper_functions/helper_functions.c > CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.i
 
 CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/BS/tmp/tmp.ecTkqrxXU3/helper_functions/helper_functions.c -o CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/BS_22_Gruppe_3/helper_functions/helper_functions.c -o CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.s
+
+CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o: CMakeFiles/BS_22_Gruppe_3.dir/flags.make
+CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o: ../key_val_store/key_val_store.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o   -c /tmp/BS_22_Gruppe_3/key_val_store/key_val_store.c
+
+CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/BS_22_Gruppe_3/key_val_store/key_val_store.c > CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.i
+
+CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/BS_22_Gruppe_3/key_val_store/key_val_store.c -o CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.s
+
+CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o: CMakeFiles/BS_22_Gruppe_3.dir/flags.make
+CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o: ../server/server.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o   -c /tmp/BS_22_Gruppe_3/server/server.c
+
+CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /tmp/BS_22_Gruppe_3/server/server.c > CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.i
+
+CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /tmp/BS_22_Gruppe_3/server/server.c -o CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.s
 
 # Object files for target BS_22_Gruppe_3
 BS_22_Gruppe_3_OBJECTS = \
 "CMakeFiles/BS_22_Gruppe_3.dir/main.c.o" \
-"CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o" \
+"CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o" \
 "CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o" \
-"CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o"
+"CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o"
 
 # External object files for target BS_22_Gruppe_3
 BS_22_Gruppe_3_EXTERNAL_OBJECTS =
 
 BS_22_Gruppe_3: CMakeFiles/BS_22_Gruppe_3.dir/main.c.o
-BS_22_Gruppe_3: CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o
-BS_22_Gruppe_3: CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o
 BS_22_Gruppe_3: CMakeFiles/BS_22_Gruppe_3.dir/helper_functions/helper_functions.c.o
+BS_22_Gruppe_3: CMakeFiles/BS_22_Gruppe_3.dir/key_val_store/key_val_store.c.o
+BS_22_Gruppe_3: CMakeFiles/BS_22_Gruppe_3.dir/server/server.c.o
 BS_22_Gruppe_3: CMakeFiles/BS_22_Gruppe_3.dir/build.make
 BS_22_Gruppe_3: CMakeFiles/BS_22_Gruppe_3.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable BS_22_Gruppe_3"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable BS_22_Gruppe_3"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/BS_22_Gruppe_3.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -138,6 +138,6 @@ CMakeFiles/BS_22_Gruppe_3.dir/clean:
 .PHONY : CMakeFiles/BS_22_Gruppe_3.dir/clean
 
 CMakeFiles/BS_22_Gruppe_3.dir/depend:
-	cd /tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /tmp/BS/tmp/tmp.ecTkqrxXU3 /tmp/BS/tmp/tmp.ecTkqrxXU3 /tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug /tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug /tmp/BS/tmp/tmp.ecTkqrxXU3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/DependInfo.cmake --color=$(COLOR)
+	cd /tmp/BS_22_Gruppe_3/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /tmp/BS_22_Gruppe_3 /tmp/BS_22_Gruppe_3 /tmp/BS_22_Gruppe_3/cmake-build-debug /tmp/BS_22_Gruppe_3/cmake-build-debug /tmp/BS_22_Gruppe_3/cmake-build-debug/CMakeFiles/BS_22_Gruppe_3.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/BS_22_Gruppe_3.dir/depend
 

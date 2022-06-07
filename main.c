@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "server/server.h"
 #include "key_val_store/key_val_store.h"
+#include "helper_functions/helper_functions.h"
 #include <string.h>
 #include <sys/wait.h>
 

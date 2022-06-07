@@ -1,3 +1,4 @@
+#include "server.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -5,9 +6,9 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include "server.h"
-#include "helper_functions/helper_functions.h"
-#include "key_val_store/key_val_store.h"
+#include "helper_functions.h"
+#include "key_val_store.h"
+
 
 #define BUFSIZE 1024 // Größe des Buffers
 #define TRUE 1
@@ -16,7 +17,7 @@
 
 void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit);
 
-void startServer() {
+void start_server() {
 
     int server_socket; // Rendevouz-Descriptor
     int connection_descriptor; // Verbindungs-Descriptor
@@ -122,7 +123,7 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
     else if(statement->keyExists && (strcmp(statement->command, "GET") == 0 || strcmp(statement->command, "get") == 0)) {
         int res;
         char* result;
-        result = get(statement->key);
+        get(statement->key, result);
         char msg[1024] = "GET:";
         if(result != NULL) {
             strcat(msg, statement->key);
@@ -139,7 +140,7 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
     }
     else if(statement->keyExists && (strcmp(statement->command, "DEL") == 0 || strcmp(statement->command, "del") == 0)) {
         int res;
-        res = delete(statement->key);
+        res = del(statement->key);
         char msg[50] = "DEL:";
         if(res == 1) {
             strcat(msg, statement->key);
