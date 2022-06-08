@@ -5,7 +5,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/msg.h>
 #include <netinet/in.h>
+#include <signal.h>
 #include "helper_functions.h"
 #include "key_val_store.h"
 
@@ -15,7 +17,7 @@
 #define PORT 5678
 
 
-void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit);
+void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit, int msg_id);
 
 _Noreturn void start_server() {
 
@@ -61,13 +63,16 @@ _Noreturn void start_server() {
         exit(-1);
     }
 
+    int message_manager = -1;
+    int msg_id = msgget(0, IPC_CREAT|0666);
+
     while (1) {
         printf("awaiting connenction\n");
         // Verbindung eines Clients wird entgegengenommen
         connection_descriptor = accept(server_socket, (struct sockaddr *) &client, &client_len);
 
         int running = 1;
-        createNewProcess(&running, connection_descriptor);
+        createNewProcess(&running, connection_descriptor, &message_manager, msg_id);
 
         while (running) {
             // Lesen von Daten, die der Client schickt
@@ -76,12 +81,54 @@ _Noreturn void start_server() {
             printf("input -> %s\n", input);
             struct Statement statement = (struct Statement) processInput(input);
 
-            handleUserInput(&statement, connection_descriptor, &isRunningTransaction, shared_mem, &running);
+            handleUserInput(&statement, connection_descriptor, &isRunningTransaction, shared_mem, &running, msg_id);
         }
     }
 }
 
-void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit)
+_Noreturn void createNewProcess(int* quit, int connection_descriptor, int* message_manager, int message_id)
+{
+    int pid = fork();
+    if(pid < 0)
+    {
+        printf("failed to create child process\n");
+    }
+    else if(pid > 0)
+    {
+        if(*message_manager > 0)
+        {
+            kill(*message_manager, SIGTERM);
+        }
+        int pid2 = fork();
+        if(pid2 < 0)
+        {
+            printf("failed to create child process\n");
+        }
+        else if(pid2 == 0)
+        {
+            while (1)
+            {
+                Text_message mess;
+                long v;
+
+                v = msgrcv(message_id, &mess, sizeof(mess), 0, 0); // &mess
+                printf("[%ld] %s\n", mess.mtype, mess.mtext);
+
+                if (v < 0) {
+                    printf("error reading from queue\n");
+                } else {
+                    printf("[%ld] %s\n", mess.mtype, mess.mtext);
+                }
+            }
+        }
+
+        *message_manager = pid2;
+        *quit = 0;
+        close(connection_descriptor);
+    }
+}
+
+void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit, int msg_id)
 {
     if((*shared_mem && *isRunningTransaction == 0) && strcmp(statement->command, "QUIT") != 0 && strcmp(statement->command, "quit") != 0)
     {
@@ -119,6 +166,13 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
         strcat(msg, statement->value);
         strcat(msg, "\n\0");
         put(statement->key, statement->value, msg, sizeof(msg));
+        Text_message text_msg =
+                {
+                        1,
+                        *msg
+                        //*statement->key
+                };
+        int res = msgsnd(msg_id, &text_msg, sizeof (text_msg), 0);
         write(connection_descriptor, msg, sizeof(msg));
     }
     else if(statement->keyExists && (strcmp(statement->command, "GET") == 0 || strcmp(statement->command, "get") == 0))
@@ -168,19 +222,5 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
     {
         char msg[] = "There is no such command like this\n";
         write(connection_descriptor, msg, sizeof(msg));
-    }
-}
-
-void createNewProcess(int* quit, int connection_descriptor)
-{
-    int pid = fork();
-    if(pid < 0)
-    {
-        printf("failed to create child process\n");
-    }
-    else if(pid > 0)
-    {
-        *quit = 0;
-        close(connection_descriptor);
     }
 }

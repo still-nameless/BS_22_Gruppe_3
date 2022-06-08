@@ -28,7 +28,6 @@ Data_point* create_shared_memory()
             shared_memory[i].subs[j] = 0;
         }
     }
-
     return shared_memory;
 }
 
@@ -40,16 +39,6 @@ int put(char* key, char* value, char* msg, int msg_size)
         if(strcmp(shared_memory[i].key, key) == 0)
         {
             strcpy(shared_memory[i].value, value);
-            for(int j = 0; j < MAX_STORE_SIZE; j++)
-            {
-                if(shared_memory[i].subs[j] != 0)
-                {
-
-                    int written_bytes = write(shared_memory[i].subs[j], msg, msg_size);
-                    printf("written bytes -> %d", written_bytes);
-                    return 1;
-                }
-            }
             return 2;
         }
     }
