@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_STORE_SIZE 10
+#include <unistd.h>
 
 Data_point* shared_memory;
 
@@ -23,12 +23,16 @@ Data_point* create_shared_memory()
     {
         strcpy(shared_memory[i].key, "NULL");
         strcpy(shared_memory[i].value, "NULL");
+        for(int j=0; j<MAX_STORE_SIZE; j++)
+        {
+            shared_memory[i].subs[j] = 0;
+        }
     }
 
     return shared_memory;
 }
 
-int put(char* key, char* value)
+int put(char* key, char* value, char* msg, int msg_size)
 {
     Data_point tmp = {*key, *value};
     for(int i = 0; i < MAX_STORE_SIZE; i++)
@@ -36,7 +40,17 @@ int put(char* key, char* value)
         if(strcmp(shared_memory[i].key, key) == 0)
         {
             strcpy(shared_memory[i].value, value);
-            return 1;
+            for(int j = 0; j < MAX_STORE_SIZE; j++)
+            {
+                if(shared_memory[i].subs[j] != 0)
+                {
+
+                    int written_bytes = write(shared_memory[i].subs[j], msg, msg_size);
+                    printf("written bytes -> %d", written_bytes);
+                    return 1;
+                }
+            }
+            return 2;
         }
     }
     for(int i = 0; i < MAX_STORE_SIZE; i++)
@@ -74,6 +88,33 @@ int del(char* key)
         {
             strcpy(shared_memory[i].key, "NULL");
             strcpy(shared_memory[i].value, "NULL");
+            return 1;
+        }
+    }
+    return -1;
+}
+
+int sub(char* key, int connection_descriptor)
+{
+    for(int i = 0; i < MAX_STORE_SIZE; i++)
+    {
+        if(strcmp(shared_memory[i].key, key) == 0)
+        {
+            for(int j = 0; j < MAX_STORE_SIZE; j++)
+            {
+                if(shared_memory[i].subs[j] == connection_descriptor)
+                {
+                    return 2;
+                }
+            }
+            for(int j = 0; j < MAX_STORE_SIZE; j++)
+            {
+                if(shared_memory[i].subs[j] == 0)
+                {
+                    shared_memory[i].subs[j] = connection_descriptor;
+                    return 1;
+                }
+            }
             return 1;
         }
     }

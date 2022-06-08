@@ -17,7 +17,7 @@
 
 void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit);
 
-void start_server() {
+_Noreturn void start_server() {
 
     int server_socket; // Rendevouz-Descriptor
     int connection_descriptor; // Verbindungs-Descriptor
@@ -111,34 +111,30 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
             write(connection_descriptor, msg, sizeof(msg));
         }
     }
-    else if(statement->keyExists && statement->valueExists && (strcmp(statement->command, "PUT") == 0 || strcmp(statement->command, "put") == 0)) {
+    else if(statement->keyExists && statement->valueExists && (strcmp(statement->command, "PUT") == 0 || strcmp(statement->command, "put") == 0))
+    {
         char msg[1024] = "PUT:";
         strcat(msg, statement->key);
         strcat(msg, ":");
         strcat(msg, statement->value);
-        strcat(msg, "\n");
+        strcat(msg, "\n\0");
+        put(statement->key, statement->value, msg, sizeof(msg));
         write(connection_descriptor, msg, sizeof(msg));
-        put(statement->key, statement->value);
     }
-    else if(statement->keyExists && (strcmp(statement->command, "GET") == 0 || strcmp(statement->command, "get") == 0)) {
+    else if(statement->keyExists && (strcmp(statement->command, "GET") == 0 || strcmp(statement->command, "get") == 0))
+    {
         int res;
-        char* result;
+        char result[256];
         get(statement->key, result);
         char msg[1024] = "GET:";
-        if(result != NULL) {
-            strcat(msg, statement->key);
-            strcat(msg, ":");
-            strcat(msg, result);
-            strcat(msg, "\n");
-            free(result);
-        }
-        else {
-            strcat(msg, statement->key);
-            strcat(msg, ":key_nonexistent\n");
-        }
+        strcat(msg, statement->key);
+        strcat(msg, ":");
+        strcat(msg, result);
+        strcat(msg, "\n");
         write(connection_descriptor, msg, sizeof(msg));
     }
-    else if(statement->keyExists && (strcmp(statement->command, "DEL") == 0 || strcmp(statement->command, "del") == 0)) {
+    else if(statement->keyExists && (strcmp(statement->command, "DEL") == 0 || strcmp(statement->command, "del") == 0))
+    {
         int res;
         res = del(statement->key);
         char msg[50] = "DEL:";
@@ -152,7 +148,8 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
         }
         write(connection_descriptor, msg, sizeof(msg));
     }
-    else if(strcmp(statement->command, "QUIT") == 0 || strcmp(statement->command, "quit") == 0) {
+    else if(strcmp(statement->command, "QUIT") == 0 || strcmp(statement->command, "quit") == 0)
+    {
         if(*isRunningTransaction)
         {
             *shared_mem = 0;
@@ -161,6 +158,11 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
         }
         *quit = 0;
         close(connection_descriptor);
+        exit(0);
+    }
+    else if(strcmp(statement->command, "SUB") == 0 || strcmp(statement->command, "sub") == 0)
+    {
+        sub(statement->key, connection_descriptor);
     }
     else
     {
@@ -169,17 +171,16 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
     }
 }
 
-int createNewProcess(int* quit, int connection_descriptor)
+void createNewProcess(int* quit, int connection_descriptor)
 {
     int pid = fork();
     if(pid < 0)
     {
         printf("failed to create child process\n");
     }
-    else if(pid == 0)
+    else if(pid > 0)
     {
         *quit = 0;
         close(connection_descriptor);
     }
-    return pid;
 }

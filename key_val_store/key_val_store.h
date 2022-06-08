@@ -9,17 +9,21 @@
 #include <sys/types.h>
 #define MAX_KEY_SIZE 256
 #define MAX_VALUE_SIZE 256
+#define MAX_STORE_SIZE 10
 
 typedef struct Data_point
 {
     char key[MAX_KEY_SIZE];
     char value[MAX_VALUE_SIZE];
+    int subs[MAX_STORE_SIZE];
 } Data_point;
 
+Data_point* shared_memory;
 Data_point* create_shared_memory();
 
-int put(char* key, char* value);
+int put(char* key, char* value, char* msg, int msg_size);
 int get(char* key, char* res);
 int del(char* key);
+int sub(char* key, int connection_descriptor);
 
 #endif //BS_22_GRUPPE_3_KEY_VAL_STORE_H

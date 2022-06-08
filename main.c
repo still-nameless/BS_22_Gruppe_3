@@ -7,16 +7,20 @@
 #include <string.h>
 #include <sys/wait.h>
 
-void test(char* name, char* new)
-{
-    strcpy(name, new);
-}
+
 
 int main() {
     printf("starting server..!\n");
-    //start_server();
 
-    Data_point* shared_memory = create_shared_memory();
+    create_shared_memory();
+    start_server();
+
+
+
+    return 0;
+}
+
+/*Data_point* shared_memory = create_shared_memory();
 
     char key[256];
     char value[256];
@@ -40,12 +44,7 @@ int main() {
     if(result)
     {
         printf("key_1:%s\n", value);
-    }
-
-    return 0;
-}
-
-
+    }*/
 
 /*int pid = fork();
     if(pid < 0)
