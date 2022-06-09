@@ -3,6 +3,8 @@
 
 #define MAX_KEY_SIZE 256
 #define MAX_MSG_SIZE 256
+#define MAX_CLIENTS 1024
+#define ENDLESSLOOP 1
 
 typedef struct Text_message
 {
@@ -12,6 +14,7 @@ typedef struct Text_message
 } Text_message;
 
 _Noreturn void start_server();
+
 void createNewProcess(int* quit, int connection_descriptor, int* message_manager, int message_id);
 
 

@@ -8,13 +8,17 @@
 #include <sys/msg.h>
 #include <netinet/in.h>
 #include <signal.h>
+#include <fcntl.h>
 #include "helper_functions.h"
 #include "key_val_store.h"
+#include <errno.h>
 
 
 #define BUFSIZE 1024 // Größe des Buffers
 #define TRUE 1
 #define PORT 5678
+
+int sockets[1024] = {0};
 
 
 void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit, int msg_id);
@@ -39,6 +43,8 @@ _Noreturn void start_server() {
         fprintf(stderr, "failed to create socket\n");
         exit(-1);
     }
+    int flags = fcntl(server_socket, F_GETFL);
+    fcntl(server_socket, F_SETFL, flags | O_NONBLOCK);
 
     // Socket Optionen setzen für schnelles wiederholtes Binden der Adresse
     int option = 1;
@@ -67,18 +73,41 @@ _Noreturn void start_server() {
     int msg_id = msgget(0, IPC_CREAT|0666);
 
     while (1) {
-        printf("awaiting connenction\n");
+        //printf("awaiting connenction\n");
         // Verbindung eines Clients wird entgegengenommen
         connection_descriptor = accept(server_socket, (struct sockaddr *) &client, &client_len);
+        if (connection_descriptor == -1)
+        {
+            if (errno == EWOULDBLOCK) {
+                printf("No pending connections; sleeping for one second.\n");
+                sleep(1);
+            } else {
+                perror("error when accepting connection");
+                printf(errno);
+                exit(1);
+            }
+        }
+
+        for (int i = 0; i < MAX_CLIENTS; ++i)
+        {
+            if(sockets[i] == 0)
+            {
+                sockets[i] = connection_descriptor;
+                break;
+            }
+        }
 
         int running = 1;
+
         createNewProcess(&running, connection_descriptor, &message_manager, msg_id);
+        //("message manager -> %d\n", message_manager);
 
         while (running) {
-            // Lesen von Daten, die der Client schickt
+            //char * text = "child in while";
+            //printf("%s", text);
             bytes_read = read(connection_descriptor, input, BUFSIZE);
             replaceCharactersInString(input, '\r', '\0');
-            printf("input -> %s\n", input);
+            //printf("input -> %s\n", input);
             struct Statement statement = (struct Statement) processInput(input);
 
             handleUserInput(&statement, connection_descriptor, &isRunningTransaction, shared_mem, &running, msg_id);
@@ -86,45 +115,67 @@ _Noreturn void start_server() {
     }
 }
 
-_Noreturn void createNewProcess(int* quit, int connection_descriptor, int* message_manager, int message_id)
+void createNewProcess(int* quit, int connection_descriptor, int* message_manager, int message_id)
 {
     int pid = fork();
     if(pid < 0)
     {
-        printf("failed to create child process\n");
+        //printf("failed to create child process\n");
     }
     else if(pid > 0)
     {
         if(*message_manager > 0)
         {
+            //printf("message manager was killed\n");
             kill(*message_manager, SIGTERM);
         }
         int pid2 = fork();
         if(pid2 < 0)
         {
-            printf("failed to create child process\n");
+            //printf("failed to create child process\n");
         }
         else if(pid2 == 0)
         {
-            while (1)
+            while (ENDLESSLOOP)
             {
-                Text_message mess;
+                Text_message text_msg;
+                //memset(text_msg.mtext, '\0', sizeof(text_msg.mtext));
                 long v;
 
-                v = msgrcv(message_id, &mess, sizeof(mess), 0, 0); // &mess
-                printf("[%ld] %s\n", mess.mtype, mess.mtext);
+                v = msgrcv(message_id, &text_msg, sizeof(text_msg), 0, 0);
+                char key[256];
+                extract_key(text_msg.mtext, key);
+
+                for (int i = 0; i < MAX_STORE_SIZE; ++i)
+                {
+                    if(strcmp(shared_memory[i].key, key) == 0)
+                    {
+                        for (int j = 0; j < MAX_STORE_SIZE; ++j)
+                        {
+                            char message[256];
+                            cut_garbage(text_msg.mtext, &message);
+
+                            write(shared_memory[i].subs[j], message, sizeof (message));
+                        }
+                    }
+                }
+
+                printf("key -> %s\n", key);
+
 
                 if (v < 0) {
                     printf("error reading from queue\n");
                 } else {
-                    printf("[%ld] %s\n", mess.mtype, mess.mtext);
+                    printf("[%ld] %s\n", text_msg.mtype, text_msg.mtext);
                 }
             }
         }
-
-        *message_manager = pid2;
-        *quit = 0;
-        close(connection_descriptor);
+        else
+        {
+            *message_manager = pid2;
+            *quit = 0;
+            //close(connection_descriptor);
+        }
     }
 }
 
@@ -166,12 +217,9 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
         strcat(msg, statement->value);
         strcat(msg, "\n\0");
         put(statement->key, statement->value, msg, sizeof(msg));
-        Text_message text_msg =
-                {
-                        1,
-                        *msg
-                        //*statement->key
-                };
+        Text_message text_msg;
+        strcpy(text_msg.mtext, msg);
+        text_msg.mtype = 1;
         int res = msgsnd(msg_id, &text_msg, sizeof (text_msg), 0);
         write(connection_descriptor, msg, sizeof(msg));
     }

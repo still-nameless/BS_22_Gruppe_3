@@ -10,6 +10,7 @@
 
 
 int main() {
+
     printf("starting server..!\n");
 
     create_shared_memory();

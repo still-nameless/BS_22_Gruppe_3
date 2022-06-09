@@ -43,6 +43,25 @@ struct Statement processInput(char* input)
     return statement;
 }
 
+void extract_key(char* msg, char* key)
+{
+    char delim[] = ":";
+    char msg_cpy[256];
+    strcpy(msg_cpy, msg);
+    strtok(msg_cpy, delim);
+    char* tmp = NULL;
+    tmp = strtok(NULL, delim);
+    strcpy(key, tmp);
+}
+
+void cut_garbage(char* msg, char* new_msg)
+{
+    char* new = NULL;
+    new = strtok(msg, "\n");
+    strcat(new, "\0");
+    strcpy(new_msg, new);
+}
+
 int* createSharedMemoryForTransactions()
 {
     int shmID = shmget(IPC_PRIVATE, SHMSEGSIZE, IPC_CREAT | 0777);
