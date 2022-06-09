@@ -22,6 +22,7 @@ int sockets[1024] = {0};
 
 
 void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit, int msg_id);
+void handle_messages(int message_id);
 
 _Noreturn void start_server() {
 
@@ -71,6 +72,7 @@ _Noreturn void start_server() {
 
     int message_manager = -1;
     int msg_id = msgget(0, IPC_CREAT|0666);
+    int running = 1;
 
     while (1) {
         //printf("awaiting connenction\n");
@@ -78,33 +80,40 @@ _Noreturn void start_server() {
         connection_descriptor = accept(server_socket, (struct sockaddr *) &client, &client_len);
         if (connection_descriptor == -1)
         {
-            if (errno == EWOULDBLOCK) {
-                printf("No pending connections; sleeping for one second.\n");
-                sleep(1);
-            } else {
+            if (errno == EWOULDBLOCK)
+            {
+                running = 0;
+                handle_messages(msg_id);
+            } else
+            {
                 perror("error when accepting connection");
-                printf(errno);
+                //printf(errno);
                 exit(1);
             }
         }
-
-        for (int i = 0; i < MAX_CLIENTS; ++i)
+        else
         {
-            if(sockets[i] == 0)
+            printf("client found\n");
+
+            for (int i = 0; i < MAX_CLIENTS; ++i)
             {
-                sockets[i] = connection_descriptor;
-                break;
+                if(sockets[i] == 0)
+                {
+                    sockets[i] = connection_descriptor;
+                    break;
+                }
             }
+
+            createNewProcess(&running, connection_descriptor, &message_manager, msg_id);
         }
 
-        int running = 1;
 
-        createNewProcess(&running, connection_descriptor, &message_manager, msg_id);
         //("message manager -> %d\n", message_manager);
 
         while (running) {
             //char * text = "child in while";
             //printf("%s", text);
+            printf("awaiting input\n");
             bytes_read = read(connection_descriptor, input, BUFSIZE);
             replaceCharactersInString(input, '\r', '\0');
             //printf("input -> %s\n", input);
@@ -115,7 +124,7 @@ _Noreturn void start_server() {
     }
 }
 
-void createNewProcess(int* quit, int connection_descriptor, int* message_manager, int message_id)
+void createNewProcess(int* running, int connection_descriptor, int* message_manager, int message_id)
 {
     int pid = fork();
     if(pid < 0)
@@ -124,58 +133,50 @@ void createNewProcess(int* quit, int connection_descriptor, int* message_manager
     }
     else if(pid > 0)
     {
-        if(*message_manager > 0)
+        *running = 0;
+    }
+    else if(pid == 0)
+    {
+        *running = 1;
+    }
+}
+
+void handle_messages(int message_id)
+{
+    //printf("want message\n");
+    Text_message text_msg;
+    //memset(text_msg.mtext, '\0', sizeof(text_msg.mtext));
+    long v;
+
+    v = msgrcv(message_id, &text_msg, sizeof(text_msg), 0, IPC_NOWAIT);
+    if(v < 0)
+    {
+        return;
+    }
+    char key[256];
+    extract_key(text_msg.mtext, key);
+
+    for (int i = 0; i < MAX_STORE_SIZE; ++i)
+    {
+        if(strcmp(shared_memory[i].key, key) == 0)
         {
-            //printf("message manager was killed\n");
-            kill(*message_manager, SIGTERM);
-        }
-        int pid2 = fork();
-        if(pid2 < 0)
-        {
-            //printf("failed to create child process\n");
-        }
-        else if(pid2 == 0)
-        {
-            while (ENDLESSLOOP)
+            for (int j = 0; j < MAX_STORE_SIZE; ++j)
             {
-                Text_message text_msg;
-                //memset(text_msg.mtext, '\0', sizeof(text_msg.mtext));
-                long v;
+                char message[256];
+                cut_garbage(text_msg.mtext, &message);
 
-                v = msgrcv(message_id, &text_msg, sizeof(text_msg), 0, 0);
-                char key[256];
-                extract_key(text_msg.mtext, key);
-
-                for (int i = 0; i < MAX_STORE_SIZE; ++i)
-                {
-                    if(strcmp(shared_memory[i].key, key) == 0)
-                    {
-                        for (int j = 0; j < MAX_STORE_SIZE; ++j)
-                        {
-                            char message[256];
-                            cut_garbage(text_msg.mtext, &message);
-
-                            write(shared_memory[i].subs[j], message, sizeof (message));
-                        }
-                    }
-                }
-
-                printf("key -> %s\n", key);
-
-
-                if (v < 0) {
-                    printf("error reading from queue\n");
-                } else {
-                    printf("[%ld] %s\n", text_msg.mtype, text_msg.mtext);
-                }
+                write(shared_memory[i].subs[j], message, sizeof (message));
             }
         }
-        else
-        {
-            *message_manager = pid2;
-            *quit = 0;
-            //close(connection_descriptor);
-        }
+    }
+
+    printf("key -> %s\n", key);
+
+
+    if (v < 0) {
+        printf("error reading from queue\n");
+    } else {
+        printf("[%ld] %s\n", text_msg.mtype, text_msg.mtext);
     }
 }
 

@@ -15,7 +15,7 @@ typedef struct Text_message
 
 _Noreturn void start_server();
 
-void createNewProcess(int* quit, int connection_descriptor, int* message_manager, int message_id);
+void createNewProcess(int* running, int connection_descriptor, int* message_manager, int message_id);
 
 
 
