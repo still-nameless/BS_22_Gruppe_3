@@ -34,5 +34,6 @@ int put(char* key, char* value, char* msg, int msg_size);
 int get(char* key, char* res);
 int del(char* key);
 int sub(char* key, int connection_descriptor);
+int del_sub(char* key);
 
 #endif //BS_22_GRUPPE_3_KEY_VAL_STORE_H

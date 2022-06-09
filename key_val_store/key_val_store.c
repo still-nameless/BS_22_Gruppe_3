@@ -153,3 +153,19 @@ int sub(char* key, int connection_descriptor)
     }
     return -1;
 }
+
+int del_sub(char* key)
+{
+    for(int i = 0; i < MAX_STORE_SIZE; i++)
+    {
+        if(strcmp(shared_memory_subs[i].key, key) == 0)
+        {
+            strcpy(shared_memory_subs[i].key, "NULL");
+            for (int j = 0; j < MAX_CLIENTS; ++j)
+            {
+                shared_memory_subs[i].subs[j] = 0;
+            }
+            break;
+        }
+    }
+}

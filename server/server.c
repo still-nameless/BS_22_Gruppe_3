@@ -192,6 +192,10 @@ void handle_messages(int message_id)
                 }
             }
         }
+        if(text_msg.mtype == 3)
+        {
+            del_sub(key);
+        }
 
         printf("key -> %s\n", key);
 
@@ -201,6 +205,7 @@ void handle_messages(int message_id)
             printf("[%ld] %s\n", text_msg.mtype, text_msg.mtext);
         }
     }
+
 }
 
 void handleUserInput(struct Statement *statement, int connection_descriptor, int* isRunningTransaction, int* shared_mem, int* quit, int msg_id)
@@ -275,7 +280,7 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
         }
         Text_message text_msg;
         strcpy(text_msg.mtext, msg);
-        text_msg.mtype = 1;
+        text_msg.mtype = 3;
         text_msg.descriptor = connection_descriptor;
         msgsnd(msg_id, &text_msg, sizeof (text_msg), 0);
         write(connection_descriptor, msg, sizeof(msg));
