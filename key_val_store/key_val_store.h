@@ -30,7 +30,7 @@ void create_shared_memory_store();
 Subs* shared_memory_subs;
 void create_shared_memory_subs();
 
-int put(char* key, char* value, char* msg, int msg_size);
+int put(char* key, char* value);
 int get(char* key, char* res);
 int del(char* key);
 int sub(char* key, int connection_descriptor);

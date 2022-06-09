@@ -49,7 +49,7 @@ void create_shared_memory_subs()
     }
 }
 
-int put(char* key, char* value, char* msg, int msg_size)
+int put(char* key, char* value)
 {
     int new_entry = 1;
     for(int i = 0; i < MAX_STORE_SIZE; i++)

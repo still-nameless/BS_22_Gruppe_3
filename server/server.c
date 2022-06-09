@@ -187,8 +187,16 @@ void handle_messages(int message_id)
                     //cut_garbage(text_msg.mtext, &message);
                     if(shared_memory_subs[i].subs[j] != 0)
                     {
-                        printf("sub-descriptor -> %d\n", shared_memory_subs[i].subs[j]);
-                        write(shared_memory_subs[i].subs[j], text_msg.mtext, sizeof(text_msg.mtext));
+                        printf("sub-descriptor -> %s\n", text_msg.mtext);
+                        int k;
+                        for (k = 0; k < sizeof(text_msg.mtext); ++k)
+                        {
+                            if(text_msg.mtext[k] == '\n')
+                            {
+                                break;
+                            }
+                        }
+                        write(shared_memory_subs[i].subs[j], text_msg.mtext, (k + 1) * sizeof(char));
                     }
                 }
             }
@@ -246,7 +254,7 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
         strcat(msg, ":");
         strcat(msg, statement->value);
         strcat(msg, "\n\0");
-        put(statement->key, statement->value, msg, sizeof(msg));
+        put(statement->key, statement->value);
         Text_message text_msg;
         strcpy(text_msg.mtext, msg);
         text_msg.mtype = 1;

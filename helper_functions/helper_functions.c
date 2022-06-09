@@ -29,7 +29,7 @@ struct Statement processInput(char* input)
         }
         if(!strcmp(command, "PUT") || !strcmp(command, "put"))
         {
-            value = strtok(NULL, delim);
+            value = strtok(NULL, "\n");
             if(value != NULL) {
                 strcpy(statement.value, value);
                 statement.valueExists = 1;
