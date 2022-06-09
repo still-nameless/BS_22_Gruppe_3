@@ -3,13 +3,13 @@
 
 #define MAX_KEY_SIZE 256
 #define MAX_MSG_SIZE 256
-#define MAX_CLIENTS 1024
 #define ENDLESSLOOP 1
 
 typedef struct Text_message
 {
     long mtype;
     char mtext[MAX_MSG_SIZE];
+    int descriptor;
     //char mkey[MAX_KEY_SIZE];
 } Text_message;
 

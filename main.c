@@ -13,7 +13,8 @@ int main() {
 
     printf("starting server..!\n");
 
-    create_shared_memory();
+    create_shared_memory_store();
+    create_shared_memory_subs();
     start_server();
 
 
@@ -21,7 +22,7 @@ int main() {
     return 0;
 }
 
-/*Data_point* shared_memory = create_shared_memory();
+/*Data_point* shared_memory_key_val_store = create_shared_memory_store();
 
     char key[256];
     char value[256];
@@ -58,7 +59,7 @@ int main() {
         printf("inside child (sounds wrong)\n");
         for(int i=0; i<10; i++)
         {
-            strcpy(shared_memory[i].key, "child child child\n");
+            strcpy(shared_memory_key_val_store[i].key, "child child child\n");
         }
         printf("finished doing stuff\n");
         exit(pid);
@@ -69,6 +70,6 @@ int main() {
         printf("inside parent (sounds wrong)\n");
         for(int i=0; i<10; i++)
         {
-            printf("%d -> %s", i+1, shared_memory[i].key);
+            printf("%d -> %s", i+1, shared_memory_key_val_store[i].key);
         }
     }*/

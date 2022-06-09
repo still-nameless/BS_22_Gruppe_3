@@ -9,17 +9,26 @@
 #include <sys/types.h>
 #define MAX_KEY_SIZE 256
 #define MAX_VALUE_SIZE 256
-#define MAX_STORE_SIZE 10
+#define MAX_STORE_SIZE 1024
+#define MAX_CLIENTS 1024
 
 typedef struct Data_point
 {
-    char key[MAX_KEY_SIZE];
+    char key[MAX_STORE_SIZE];
     char value[MAX_VALUE_SIZE];
-    int subs[MAX_STORE_SIZE];
 } Data_point;
 
-Data_point* shared_memory;
-Data_point* create_shared_memory();
+typedef struct Subs
+{
+    char key[MAX_STORE_SIZE];
+    int subs[MAX_CLIENTS];
+} Subs;
+
+Data_point* shared_memory_key_val_store;
+void create_shared_memory_store();
+
+Subs* shared_memory_subs;
+void create_shared_memory_subs();
 
 int put(char* key, char* value, char* msg, int msg_size);
 int get(char* key, char* res);

@@ -84,9 +84,11 @@ _Noreturn void start_server() {
             {
                 running = 0;
                 handle_messages(msg_id);
-            } else
+            }
+            else
             {
                 perror("error when accepting connection");
+
                 //printf(errno);
                 exit(1);
             }
@@ -138,14 +140,19 @@ void createNewProcess(int* running, int connection_descriptor, int* message_mana
     else if(pid == 0)
     {
         *running = 1;
+        for (int i = 0; i < MAX_CLIENTS; ++i)
+        {
+            if(sockets[i] != connection_descriptor)
+            {
+                close(sockets[i]);
+            }
+        }
     }
 }
 
 void handle_messages(int message_id)
 {
-    //printf("want message\n");
     Text_message text_msg;
-    //memset(text_msg.mtext, '\0', sizeof(text_msg.mtext));
     long v;
 
     v = msgrcv(message_id, &text_msg, sizeof(text_msg), 0, IPC_NOWAIT);
@@ -153,30 +160,46 @@ void handle_messages(int message_id)
     {
         return;
     }
-    char key[256];
-    extract_key(text_msg.mtext, key);
-
-    for (int i = 0; i < MAX_STORE_SIZE; ++i)
+    if(text_msg.mtype == 2)
     {
-        if(strcmp(shared_memory[i].key, key) == 0)
+        close(text_msg.descriptor);
+        for (int i = 0; i < MAX_CLIENTS; ++i)
         {
-            for (int j = 0; j < MAX_STORE_SIZE; ++j)
+            if(sockets[i] == text_msg.descriptor)
             {
-                char message[256];
-                cut_garbage(text_msg.mtext, &message);
-
-                write(shared_memory[i].subs[j], message, sizeof (message));
+                sockets[i] = 0;
             }
         }
     }
+    else {
+        char key[256];
+        extract_key(text_msg.mtext, key);
 
-    printf("key -> %s\n", key);
 
+        for (int i = 0; i < MAX_STORE_SIZE; ++i)
+        {
+            if (strcmp(shared_memory_subs[i].key, key) == 0)
+            {
+                for (int j = 0; j < MAX_CLIENTS; ++j)
+                {
+                    char message[256];
+                    //cut_garbage(text_msg.mtext, &message);
+                    if(shared_memory_subs[i].subs[j] != 0)
+                    {
+                        printf("sub-descriptor -> %d\n", shared_memory_subs[i].subs[j]);
+                        write(shared_memory_subs[i].subs[j], text_msg.mtext, sizeof(text_msg.mtext));
+                    }
+                }
+            }
+        }
 
-    if (v < 0) {
-        printf("error reading from queue\n");
-    } else {
-        printf("[%ld] %s\n", text_msg.mtype, text_msg.mtext);
+        printf("key -> %s\n", key);
+
+        if (v < 0) {
+            printf("error reading from queue\n");
+        } else {
+            printf("[%ld] %s\n", text_msg.mtype, text_msg.mtext);
+        }
     }
 }
 
@@ -221,7 +244,8 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
         Text_message text_msg;
         strcpy(text_msg.mtext, msg);
         text_msg.mtype = 1;
-        int res = msgsnd(msg_id, &text_msg, sizeof (text_msg), 0);
+        text_msg.descriptor = connection_descriptor;
+        msgsnd(msg_id, &text_msg, sizeof (text_msg), 0);
         write(connection_descriptor, msg, sizeof(msg));
     }
     else if(statement->keyExists && (strcmp(statement->command, "GET") == 0 || strcmp(statement->command, "get") == 0))
@@ -240,7 +264,7 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
     {
         int res;
         res = del(statement->key);
-        char msg[50] = "DEL:";
+        char msg[1024] = "DEL:";
         if(res == 1) {
             strcat(msg, statement->key);
             strcat(msg, ":key_deleted\n");
@@ -249,6 +273,11 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
             strcat(msg, statement->key);
             strcat(msg, ":key_nonexistent\n");
         }
+        Text_message text_msg;
+        strcpy(text_msg.mtext, msg);
+        text_msg.mtype = 1;
+        text_msg.descriptor = connection_descriptor;
+        msgsnd(msg_id, &text_msg, sizeof (text_msg), 0);
         write(connection_descriptor, msg, sizeof(msg));
     }
     else if(strcmp(statement->command, "QUIT") == 0 || strcmp(statement->command, "quit") == 0)
@@ -259,6 +288,23 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
             char msg[] = "TRANSACTION ENDED\n";
             write(connection_descriptor, msg, sizeof(msg));
         }
+
+        for (int i = 0; i < MAX_STORE_SIZE; ++i)
+        {
+            for (int j = 0; j < MAX_STORE_SIZE; ++j)
+            {
+                if(shared_memory_subs[i].subs[j] == connection_descriptor)
+                {
+                    shared_memory_subs[i].subs[j] = 0;
+                }
+            }
+        }
+
+        Text_message text_msg;
+        text_msg.mtype = 2;
+        text_msg.descriptor = connection_descriptor;
+        msgsnd(msg_id, &text_msg, sizeof (text_msg), 0);
+
         *quit = 0;
         close(connection_descriptor);
         exit(0);
