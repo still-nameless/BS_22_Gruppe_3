@@ -120,8 +120,9 @@ _Noreturn void start_server() {
             replaceCharactersInString(input, '\r', '\0');
             //printf("input -> %s\n", input);
             struct Statement statement = (struct Statement) processInput(input);
-
+            semop(sem_id, &enter, 1);
             handleUserInput(&statement, connection_descriptor, &isRunningTransaction, shared_mem, &running, msg_id);
+            semop(sem_id, &leave, 1);
         }
     }
 }

@@ -1,9 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <sys/shm.h>
-#include <sys/ipc.h>
+#include <stdlib.h>
 #include "helper_functions.h"
-#define SHMSEGSIZE sizeof(int)
 
 struct Statement processInput(char* input)
 {
@@ -80,4 +76,21 @@ void replaceCharactersInString(char* input, char old, char new)
         }
         i++;
     }
+}
+
+void create_semaphore()
+{
+    unsigned short marker[1];
+    sem_id = semget(IPC_PRIVATE, 1, IPC_CREAT|0644);
+    if(sem_id == -1)
+    {
+        perror("semget");
+        exit(1);
+    }
+    marker[0] = 1;
+    semctl(sem_id, 1, SETALL, marker);
+    enter.sem_num = leave.sem_num = 0;
+    enter.sem_flg = leave.sem_flg = SEM_UNDO;
+    enter.sem_op = -1;
+    leave.sem_op = 1;
 }

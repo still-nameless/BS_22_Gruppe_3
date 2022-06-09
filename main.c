@@ -15,6 +15,7 @@ int main() {
 
     create_shared_memory_store();
     create_shared_memory_subs();
+    create_semaphore();
     start_server();
 
 
