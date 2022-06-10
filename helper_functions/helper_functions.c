@@ -81,7 +81,7 @@ void replaceCharactersInString(char* input, char old, char new)
 void create_semaphore()
 {
     unsigned short marker[1];
-    sem_id = semget(IPC_PRIVATE, 1, IPC_CREAT|0644);
+    sem_id = semget(IPC_PRIVATE, 1, IPC_CREAT|0777);
     if(sem_id == -1)
     {
         perror("semget");

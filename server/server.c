@@ -70,13 +70,11 @@ _Noreturn void start_server() {
         exit(-1);
     }
 
-    int message_manager = -1;
     int msg_id = msgget(0, IPC_CREAT|0666);
     int running = 1;
 
-    while (1) {
-        //printf("awaiting connenction\n");
-        // Verbindung eines Clients wird entgegengenommen
+    while (1)
+    {
         connection_descriptor = accept(server_socket, (struct sockaddr *) &client, &client_len);
         if (connection_descriptor == -1)
         {
@@ -106,28 +104,23 @@ _Noreturn void start_server() {
                 }
             }
 
-            createNewProcess(&running, connection_descriptor, &message_manager, msg_id);
+            createNewProcess(&running, connection_descriptor);
         }
 
-
-        //("message manager -> %d\n", message_manager);
-
-        while (running) {
-            //char * text = "child in while";
-            //printf("%s", text);
+        while (running)
+        {
             printf("awaiting input\n");
             bytes_read = read(connection_descriptor, input, BUFSIZE);
             replaceCharactersInString(input, '\r', '\0');
-            //printf("input -> %s\n", input);
+
             struct Statement statement = (struct Statement) processInput(input);
-            semop(sem_id, &enter, 1);
+
             handleUserInput(&statement, connection_descriptor, &isRunningTransaction, shared_mem, &running, msg_id);
-            semop(sem_id, &leave, 1);
         }
     }
 }
 
-void createNewProcess(int* running, int connection_descriptor, int* message_manager, int message_id)
+void createNewProcess(int* running, int connection_descriptor)
 {
     int pid = fork();
     if(pid < 0)
@@ -203,7 +196,9 @@ void handle_messages(int message_id)
         }
         if(text_msg.mtype == 3)
         {
+            semop(sem_id, &enter, 1);
             del_sub(key);
+            semop(sem_id, &leave, 1);
         }
 
         printf("key -> %s\n", key);
@@ -254,7 +249,9 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
         strcat(msg, ":");
         strcat(msg, statement->value);
         strcat(msg, "\n\0");
+        semop(sem_id, &enter, 1);
         put(statement->key, statement->value);
+        semop(sem_id, &leave, 1);
         Text_message text_msg;
         strcpy(text_msg.mtext, msg);
         text_msg.mtype = 1;
@@ -266,7 +263,9 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
     {
         int res;
         char result[256];
+        semop(sem_id, &enter, 1);
         get(statement->key, result);
+        semop(sem_id, &leave, 1);
         char msg[1024] = "GET:";
         strcat(msg, statement->key);
         strcat(msg, ":");
@@ -277,7 +276,9 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
     else if(statement->keyExists && (strcmp(statement->command, "DEL") == 0 || strcmp(statement->command, "del") == 0))
     {
         int res;
+        semop(sem_id, &enter, 1);
         res = del(statement->key);
+        semop(sem_id, &leave, 1);
         char msg[1024] = "DEL:";
         if(res == 1) {
             strcat(msg, statement->key);
@@ -303,6 +304,7 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
             write(connection_descriptor, msg, sizeof(msg));
         }
 
+        semop(sem_id, &enter, 1);
         for (int i = 0; i < MAX_STORE_SIZE; ++i)
         {
             for (int j = 0; j < MAX_STORE_SIZE; ++j)
@@ -313,6 +315,7 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
                 }
             }
         }
+        semop(sem_id, &leave, 1);
 
         Text_message text_msg;
         text_msg.mtype = 2;
@@ -325,7 +328,9 @@ void handleUserInput(struct Statement *statement, int connection_descriptor, int
     }
     else if(strcmp(statement->command, "SUB") == 0 || strcmp(statement->command, "sub") == 0)
     {
+        semop(sem_id, &enter, 1);
         sub(statement->key, connection_descriptor);
+        semop(sem_id, &leave, 1);
     }
     else
     {
